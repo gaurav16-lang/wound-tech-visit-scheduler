@@ -75,3 +75,6 @@ The Vite development server will start (typically on `http://localhost:5173`).
 * **Interactive Calendar:** Full-featured scheduling using `react-big-calendar`.
 * **Dark Theme:** Custom Material UI dark mode integration with purple accents.
 * **Dashboard Analytics:** Live statistics and expandable appointment history tables.
+
+
+<img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/736ac516-7dde-48f1-b410-fe9cb54e8100" /0
