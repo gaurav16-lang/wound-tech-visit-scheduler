@@ -1,0 +1,16 @@
+{
+  "name": "woudtech-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm run start:dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "install:all": "npm install",
+    "prisma:migrate": "npm run prisma:migrate --workspace=backend",
+    "prisma:generate": "npm run prisma:generate --workspace=backend"
+  }
+}

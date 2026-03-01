@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("PATIENT")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient   Patient?
+  clinician Clinician?
+}
+
+model Patient {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName     String
+  lastName      String
+  dateOfBirth   DateTime
+  contactNumber String
+  address       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  visits Visit[]
+}
+
+model Clinician {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName     String
+  lastName      String
+  specialty     String
+  licenseNumber String   @unique
+  contactNumber String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  visits Visit[]
+}
+
+model Visit {
+  id          Int      @id @default(autoincrement())
+  patientId   Int
+  patient     Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  clinicianId Int
+  clinician   Clinician @relation(fields: [clinicianId], references: [id], onDelete: Cascade)
+  scheduledAt DateTime
+  endTime     DateTime
+  status      String   @default("SCHEDULED")
+  notes       String?
+  subject     String   @default("Visit")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
