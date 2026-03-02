@@ -47,6 +47,7 @@ const VisitsPage: React.FC = () => {
 
     // Filter state
     const [selectedClinicianFilter, setSelectedClinicianFilter] = useState<string>('all');
+    const [selectedPatientFilter, setSelectedPatientFilter] = useState<string>('all');
     const [selectedStatusFilter, setSelectedStatusFilter] = useState<string>('all');
 
     // Dialog state
@@ -164,8 +165,9 @@ const VisitsPage: React.FC = () => {
 
     const filteredEvents = events.filter((e) => {
         const clinicianMatch = selectedClinicianFilter === 'all' || e.clinicianId === Number(selectedClinicianFilter);
+        const patientMatch = selectedPatientFilter === 'all' || e.patientId === Number(selectedPatientFilter);
         const statusMatch = selectedStatusFilter === 'all' || e.status === selectedStatusFilter;
-        return clinicianMatch && statusMatch;
+        return clinicianMatch && patientMatch && statusMatch;
     });
 
     return (
@@ -213,6 +215,21 @@ const VisitsPage: React.FC = () => {
                             <MenuItem value="all"><em>All Clinicians</em></MenuItem>
                             {clinicians.map((c: any) => (
                                 <MenuItem key={c.id} value={String(c.id)}>Dr. {c.lastName} ({c.specialty})</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl size="small" sx={{ minWidth: 200 }}>
+                        <InputLabel id="patient-filter-label" sx={{ color: '#A0A0C0' }}>Filter by Patient</InputLabel>
+                        <Select
+                            labelId="patient-filter-label"
+                            value={selectedPatientFilter}
+                            label="Filter by Patient"
+                            onChange={(e) => setSelectedPatientFilter(e.target.value)}
+                            sx={{ color: '#EAEAEA', '.MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(108, 99, 255, 0.3)' } }}
+                        >
+                            <MenuItem value="all"><em>All Patients</em></MenuItem>
+                            {patients.map((p: any) => (
+                                <MenuItem key={p.id} value={String(p.id)}>{p.firstName} {p.lastName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

@@ -4,55 +4,99 @@ A full-stack monorepo application for scheduling and tracking clinician visits t
 
 ## Tech Stack
 * **Frontend**: React, Vite, Material UI (MUI), React Big Calendar, Axios
-* **Backend**: NestJS, PostgreSQL/SQLite, Prisma ORM, Passport (JWT), bcrypt
+* **Backend**: NestJS, SQLite, Prisma ORM, Passport (JWT), bcrypt
 * **Language**: TypeScript
 
 ## Prerequisites
 * [Node.js](https://nodejs.org/) (v18 or higher recommended)
 * npm (comes with Node.js)
 
+---
+
 ## Getting Started
 
-Follow these steps to set up and run the application locally.
-
 ### 1. Install Dependencies
-Run the following command in the **root directory** to install all dependencies for both the frontend and backend using npm workspaces:
+
+From the **project root**, install dependencies for both frontend and backend (npm workspaces):
 
 ```bash
 npm install
 ```
 
-### 2. Database Setup (Backend)
-The application is pre-configured to use a local SQLite database (`dev.db`) for easy setup without needing PostgreSQL.
+### 2. Database Setup
 
-Navigate to the `backend` directory and run the Prisma migrations to create the database tables:
+The app uses **SQLite** with Prisma. The database file is created in `backend/` as `dev.db`.
+
+**From the project root:**
 
 ```bash
 cd backend
+npx prisma generate
 npx prisma db push
 ```
 
-*Note: If you want to use Prisma Studio to view the database visually, you can run `npx prisma studio`.*
+- **`prisma generate`** – generates the Prisma Client used by the backend.
+- **`prisma db push`** – creates/updates the SQLite database and tables from `prisma/schema.prisma`. No migration files are created; this is enough for local development.
 
-### 3. Start the Application
+You do **not** need `prisma migrate` when using `db push`. If you prefer versioned migrations (e.g. for production or team workflows), you can run `npx prisma migrate dev` once to create an initial migration and use that instead of `db push`.
 
-You will need two separate terminal windows/tabs to run the backend and frontend simultaneously.
+*(Optional)* To inspect data in a UI, run from `backend/`:
 
-**Terminal 1: Start the Backend (NestJS)**
 ```bash
-# from the root directory
+npx prisma studio
+```
+
+### 3. Backend Environment (Optional)
+
+The backend reads config from `backend/.env`. A sample file is provided:
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+Edit `.env` if you need to change `JWT_SECRET`, `JWT_EXPIRES_IN`, or `PORT`. Defaults work for local development.
+
+### 4. Start the Backend
+
+Use **two terminals**: one for the API, one for the frontend.
+
+**Option A – from project root:**
+```bash
+npm run dev:backend
+```
+
+**Option B – from backend folder:**
+```bash
 cd backend
 npm run start:dev
 ```
-The backend API will start on `http://localhost:3000`.
 
-**Terminal 2: Start the Frontend (Vite/React)**
+The API runs at **http://localhost:3000**.
+
+### 5. Start the Frontend
+
+**Option A – from project root:**
 ```bash
-# from the root directory
+npm run dev:frontend
+```
+
+**Option B – from frontend folder:**
+```bash
 cd frontend
 npm run dev
 ```
-The Vite development server will start (typically on `http://localhost:5173`).
+
+The app runs at **http://localhost:5173** (Vite default). Open this URL in your browser.
+
+---
+
+**Quick reference**
+
+| Service   | Command (from root)   | URL                  |
+|----------|------------------------|----------------------|
+| Backend  | `npm run dev:backend`  | http://localhost:3000 |
+| Frontend | `npm run dev:frontend` | http://localhost:5173 |
 
 ---
 
@@ -65,7 +109,7 @@ The Vite development server will start (typically on `http://localhost:5173`).
    * **Clinician Registration**: Register at least one clinician.
 4. **Schedule Visits:** Navigate to **Visits & Appointments** in the sidebar.
    * Click the **New Visit** button or click directly on the calendar to schedule an appointment.
-   * You can filter the calendar view using the dropdowns in the top right corner by **Clinician** or by **Status** (Scheduled, Completed, Cancelled).
+   * You can filter the calendar using the dropdowns: **Clinician**, **Patient**, or **Status** (Scheduled, Completed, Cancelled).
 5. **Dashboard Overview:** Return to the Dashboard to see an overview table of all your patients and clinicians. You can click the arrow next to their name to expand and view their individual appointment histories.
 
 ## Features
