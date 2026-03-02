@@ -76,7 +76,8 @@ The Vite development server will start (typically on `http://localhost:5173`).
 * **Dark Theme:** Custom Material UI dark mode integration with purple accents.
 * **Dashboard Analytics:** Live statistics and expandable appointment history tables.
 
-
+## Glimpse of the Visit Tracking System
 <img width="1920" height="909" alt="Image" src="https://github.com/user-attachments/assets/de9dde42-4617-4b72-a061-6413e6a02e9d" />
+
 
 
